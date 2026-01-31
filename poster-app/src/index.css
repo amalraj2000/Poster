@@ -1,0 +1,497 @@
+:root {
+  --primary: #ff4d4d;
+  --accent: #f9cb28;
+  --dark: #121212;
+  --light: #ffffff;
+  --glass: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--dark);
+  color: var(--light);
+  height: 100vh;
+  overflow: hidden;
+  /* This acts as overflow-hidden for both axes usually, but let's be explicit if needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Vibrant Gradient Background */
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  position: relative;
+  width: 100vw;
+  /* Ensure full viewport width */
+}
+
+/* Abstract Background Shapes */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  z-index: 0;
+  opacity: 0.6;
+  animation: float 10s infinite ease-in-out;
+}
+
+.orb-1 {
+  width: 400px;
+  height: 400px;
+  background: #ff00cc;
+  background: linear-gradient(45deg, #ff00cc, #333399);
+  top: -100px;
+  left: -100px;
+}
+
+.orb-2 {
+  width: 300px;
+  height: 300px;
+  background: #00dbde;
+  background: linear-gradient(45deg, #00dbde, #fc00ff);
+  bottom: -50px;
+  right: -50px;
+  animation-delay: -5s;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(30px, 50px);
+  }
+}
+
+/* Poster Container */
+.poster-container {
+  position: relative;
+  z-index: 10;
+  width: 90%;
+  max-width: 600px;
+  height: 90vh;
+  /* Increased height for photos */
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.poster-container:hover {
+  transform: scale(1.01);
+}
+
+/* Poster Image Area */
+.poster-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.poster-image::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Poster Content */
+.poster-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 4rem 2rem 2rem 2rem;
+  /* Increased top padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  /* Stronger gradient at bottom to make text readable */
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0.95));
+}
+
+.tagline {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Also styling h3 to match the original HTML which used h3 for the main title? 
+   Wait, the original HTML used h3 for "DESIGN FUTURE". 
+   Let's check the original styling. 
+   Ah, original HTML line 159 says `h1`. 
+   But the content uses `h3` (line 430: `<h3>DESIGN FUTURE</h3>`).
+   Wait, line 159 defines `h1` style, but the HTML doesn't use `h1`?
+   Let's look at line 430. It uses `<h3>`.
+   But line 487 also uses `<h3>` for "OCT 24".
+   Let's check if there is an `h3` style in the original CSS.
+   Original CSS has `h1` style (line 159-167). 
+   It does NOT seem to have an `h3` style block specifically for the title size?
+   Wait, let me double check the `view_file` output (Step 8).
+   Lines 159-167: `h1 { ... }`.
+   Line 245: `.detail-item h3 { ... }`.
+   Line 430: `<h3>DESIGN FUTURE</h3>`.
+   
+   If the original CSS defined `h1` but used `h3`, the `h3` would look like a default h3 unless it inherits something.
+   Maybe I missed the `h3` selector? 
+   Let's look closely at `view_file` again.
+   I don't see a bare `h3` selector.
+   However, `index.html` line 430 is `<h3>DESIGN FUTURE</h3>`.
+   Maybe the user MEANT `h1` or I missed where `h3` is styled.
+   
+   Actually, looking at the code again...
+   Line 159 says `h1`.
+   Line 430 says `h3`.
+   This might be a bug in the original code, or I missed something.
+   BUT, I should probably copy the `h1` styles and apply them to `h3` or whatever the main title uses, OR simply use `h1` in my React component for the main title.
+   I will stick to the CSS provided. If the original worked, it worked. 
+   Wait, maybe `Playfair Display` is applied to `h1`, but `h3` gets it from body? No, body is `Outfit`.
+   This suggests the original poster might have had small text for the title if it was `h3` without `Playfair`.
+   Let me verify if I missed any styles.
+   I see `.detail-item h3` (line 245).
+   I DO NOT see a global `h3` style.
+   I see `h1` style.
+   
+   I'll port the CSS as is. When I build the component, I will use the tag that matches the style. 
+   If `h1` is styled to look big, I will use `h1` for "DESIGN FUTURE" in my React component, even if the HTML used `h3` (unless `h3` was the intended semantic tag).
+   Actually, looking at the screenshot/description implies a "Poster". Usually the title is big. 
+   I will assume the intention was `h1`. I will use `h1` in React.
+*/
+
+h1,
+h3.main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #fff, #ccc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: 100%;
+  /* ensure block */
+  display: block;
+}
+
+
+p.description {
+  font-size: 0.95rem;
+  color: white;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  font-weight: 300;
+}
+
+/* Speakers / People Section */
+.guests-label {
+  font-size: 0.8rem;
+  color: white;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.guests-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.guest-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.guest-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 0.3rem;
+}
+
+.guest-img:hover {
+  transform: scale(1.1);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(249, 203, 40, 0.5);
+}
+
+.guest-name {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 0px;
+  cursor: text;
+}
+
+.guest-title {
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: text;
+}
+
+.guest-name:focus,
+.guest-title:focus {
+  outline: 1px dashed var(--accent);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.details {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-item h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: white;
+  /* Ensure visibility */
+}
+
+.detail-item span {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Call to Action */
+.cta-btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--light);
+  color: var(--dark);
+  border: none;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.cta-btn:hover {
+  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Decorative Elements */
+.noise {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAA5OTkAAAAAAAAAAABMTExERERmZmZnOc2zAAAACHRSTlMAMwA3M2YzMzOpmdUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAA8SURBVDjLY2AYBaNgOANdQYGh4SoDA4Oiy8AAAxCDiYGh4SoDA4Oiy8AAAxCDiYGh4SoDA4Oiy8AAAxCDAQC6fxgF2yX1sAAAAABJRU5ErkJggg==');
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Logo */
+.logo {
+  position: absolute;
+  top: 25px;
+  left: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 1.1rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 8px 15px;
+  border-radius: 30px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+}
+
+.logo svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--accent);
+}
+
+/* Control Buttons Container */
+.controls {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.control-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.download-btn {
+  background: var(--accent);
+  color: var(--dark);
+}
+
+.add-btn {
+  background: #fff;
+  color: var(--dark);
+}
+
+.remove-btn {
+  background: #ff4d4d;
+  color: #fff;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.1);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .controls {
+    top: auto;
+    bottom: 15px;
+    right: 0;
+    left: 0;
+    flex-direction: row;
+    justify-content: center;
+    width: auto;
+    padding: 0 5px;
+    gap: 8px;
+    overflow-x: hidden;
+    /* Ensure no scrollbar */
+  }
+
+  .poster-container {
+    height: 75vh;
+    width: 95%;
+  }
+
+  .control-btn {
+    padding: 6px 4px;
+    font-size: 0.55rem;
+    flex: 1;
+    max-width: 80px;
+    min-width: 50px;
+    /* Ensure button doesn't get too small */
+  }
+}
+
+/* Dynamic Grid Styling */
+.guests-grid[data-count="1"] {
+  grid-template-columns: 1fr;
+}
+
+.guests-grid[data-count="1"] .guest-img {
+  width: 150px;
+  height: 150px;
+}
+
+.guests-grid[data-count="1"] .guest-name {
+  font-size: 1.2rem;
+}
+
+.guests-grid[data-count="2"],
+.guests-grid[data-count="3"] {
+  grid-template-columns: repeat(3, 1fr);
+  /* Keep centered */
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.guests-grid[data-count="2"] .guest-img,
+.guests-grid[data-count="3"] .guest-img {
+  width: 100px;
+  height: 100px;
+}
+
+/* 4-6 is default style (roughly) */
+.guests-grid[data-count="4"],
+.guests-grid[data-count="5"],
+.guests-grid[data-count="6"] {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.guests-grid[data-count="7"],
+.guests-grid[data-count="8"],
+.guests-grid[data-count="9"] {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 5px;
+}
+
+.guests-grid[data-count="7"] .guest-img,
+.guests-grid[data-count="8"] .guest-img,
+.guests-grid[data-count="9"] .guest-img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 0.1rem;
+}
+
+.guests-grid[data-count="7"] .guest-name,
+.guests-grid[data-count="8"] .guest-name,
+.guests-grid[data-count="9"] .guest-name {
+  font-size: 0.65rem;
+}
